@@ -2,6 +2,7 @@
 const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
+var gravatar = require('gravatar');
 
 const User = require('../../models/Users')
 
@@ -59,9 +60,13 @@ router.post('/register',async (req,res)=>{
             msg:'邮箱已被注册！'
         })
     }else{
+        // 获取头像
+        const avatar = gravatar.url(req.body.email, {s: '200', r: 'pg', d: 'mm'});
+        // 获取body中的值
         const newUsers = new User({
             name:req.body.name,
             email:req.body.email,
+            avatar,
             password:req.body.password
         })
 
