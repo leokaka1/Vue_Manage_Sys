@@ -113,21 +113,27 @@ router.post("/login", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  const result = await User.findOne({ email });
-  //   console.log(result)
-  if (!result) {
+  const searchResult = await User.findOne({ email });
+  // console.log(searchResult)
+  if (!searchResult) {
     res.json({
       code: 0,
       msg: "用户不存在!"
     });
   } else {
     // 密码匹配
-    bcrypt.compare(password, result.password, (err, result) => {
+    bcrypt.compare(password, searchResult.password, (err, result) => {
       // res == true
       // 匹配成功
       if (result) {
         // 使用 json web token
-        const rule = { id: result._id, name: result.name };
+        // 把用户信息传入
+        const rule = { 
+          id: searchResult._id,
+          email:searchResult.email, 
+          name: searchResult.name,
+          avatar:searchResult.avatar
+        };
         // 规则，名称，过期时间
         jwt.sign(rule, secret, { expiresIn: 3600 }, (err, token) => {
           if (err) throw err;
@@ -150,7 +156,7 @@ router.post("/login", async (req, res) => {
 
 
 router.get('/current',passport.authenticate("jwt",{session:false}), async (req,res)=>{
-    
+    console.log(req,res)
 })
 
 module.exports = router;
