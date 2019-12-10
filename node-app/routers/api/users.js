@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const gravatar = require("gravatar");
 const jwt = require("jsonwebtoken");
 const secret = require("../../config/keys").secret;
+const passport = require('passport')
 const User = require("../../models/Users");
 
 /**
@@ -133,7 +134,7 @@ router.post("/login", async (req, res) => {
           res.json({
             code: 1,
             msg: "登录成功！",
-            token: "leon" + token
+            token: "Bearer " + token
           });
         });
       } else {
@@ -148,7 +149,7 @@ router.post("/login", async (req, res) => {
 
 
 
-router.get('/current', async (req,res)=>{
+router.get('/current',passport.authenticate("jwt",{session:false}), async (req,res)=>{
     
 })
 

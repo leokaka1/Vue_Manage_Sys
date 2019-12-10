@@ -10,6 +10,10 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 
+// passport
+const passport = require('passport')
+app.use(passport.initialize());
+
 // Connect to Mongodb
 mongoose.connect(dbs,{
     useUnifiedTopology: true,
@@ -22,6 +26,9 @@ mongoose.connect(dbs,{
 
 const users = require('./routers/api/Users')
 app.use('/api/users',users)
+
+// passport
+require('./config/passport')(passport)
 
 const port = process.env.PORT || 5000
 
