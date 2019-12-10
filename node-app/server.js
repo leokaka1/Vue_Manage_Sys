@@ -15,7 +15,7 @@ mongoose.connect(dbs,{
     console.log("MongoDb connect fail!!! -----",err)
 })
 
-const users = require('./routers/api/users')
+const users = require('./routers/api/Users')
 app.use('/api/users',users)
 
 const port = process.env.PORT || 5000
