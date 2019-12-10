@@ -56,7 +56,7 @@ router.post('/register',async (req,res)=>{
     const result = await User.findOne({email:req.body.email})
     if(result){
         res.json({
-            code:1,
+            code:0,
             msg:'邮箱已被注册！'
         })
     }else{
@@ -81,13 +81,60 @@ router.post('/register',async (req,res)=>{
                 const result = await newUsers.save()
                 if(result){
                     res.json({
-                        code:0,
+                        code:1,
                         result
                     })
                 }
             });
         });
 
+    }
+})
+
+
+/**
+ * @api {post} /api/users/login 用户登录
+ * @apiDescription 用户登录
+ * @apiName login
+ * @apiGroup login
+ * @apiParam {string} email 邮箱
+ * @apiParam {string} password 密码
+ * @apiSuccess {json} result
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+        "code": 1,
+        "msg": "登录成功！"
+    }
+ * @apiSampleRequest http://localhost:5000/api/users/login
+ * @apiVersion 1.0.0
+ */
+router.post('/login', async (req,res)=>{
+    const email = req.body.email
+    const password = req.body.password
+
+    const result = await User.findOne({email})
+    if(!result){
+        res.json({
+            code:0,
+            msg:"用户不存在!"
+        })
+    }else{
+        // 密码匹配
+        bcrypt.compare(password, result.password, (err, result) =>{
+            // res == true
+            // 匹配成功
+            if(result){
+                res.json({
+                    code:1,
+                    msg:"登录成功！"
+                })
+            }else{
+                res.json({
+                    code:0,
+                    msg:"登录密码错误！"
+                })
+            }
+        });
     }
 })
 
