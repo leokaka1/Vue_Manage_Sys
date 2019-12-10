@@ -146,4 +146,10 @@ router.post("/login", async (req, res) => {
   }
 });
 
+
+
+router.get('/current', async (req,res)=>{
+    
+})
+
 module.exports = router;
