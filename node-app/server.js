@@ -5,10 +5,6 @@ const app = express()
 const mongoose = require('mongoose')
 const dbs = require('./config/keys').dbs
 
-app.get('/',(req,res)=>{
-    res.send('Hello world!')
-})
-
 // Connect to Mongodb
 mongoose.connect(dbs,{
     useUnifiedTopology: true,
@@ -18,6 +14,9 @@ mongoose.connect(dbs,{
 }).catch((err)=>{
     console.log("MongoDb connect fail!!! -----",err)
 })
+
+const users = require('./routers/api/users')
+app.use('/api/users',users)
 
 const port = process.env.PORT || 5000
 
