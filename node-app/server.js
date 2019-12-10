@@ -5,6 +5,11 @@ const app = express()
 const mongoose = require('mongoose')
 const dbs = require('./config/keys').dbs
 
+// bodyParser
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.json())
+
 // Connect to Mongodb
 mongoose.connect(dbs,{
     useUnifiedTopology: true,
