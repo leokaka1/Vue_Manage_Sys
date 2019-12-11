@@ -24,8 +24,13 @@ mongoose.connect(dbs,{
     console.log("MongoDb connect fail!!! -----",err)
 })
 
+// 引入users
 const users = require('./routers/api/Users')
 app.use('/api/users',users)
+
+// 引入profile
+const profits = require('./routers/api/Profits')
+app.use('/api/profits',profits)
 
 // passport
 require('./config/passport')(passport)
