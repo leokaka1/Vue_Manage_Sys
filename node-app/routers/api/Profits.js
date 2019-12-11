@@ -201,7 +201,7 @@ router.get('/:id',passport.authenticate('jwt',{session:false}), async (req,res)=
  * @apiVersion 1.0.0
  */
 router.delete('/delete/:id',passport.authenticate('jwt',{session:false}), async (req,res)=>{
-    const result = await Profits.findOneAndRemove({_id:req.params.id})
+    const result = await Profits.findOneAndDelete({_id:req.params.id})
     
     if(result){
         res.json({
