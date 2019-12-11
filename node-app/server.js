@@ -5,9 +5,14 @@ const app = express()
 const mongoose = require('mongoose')
 const dbs = require('./config/keys').dbs
 
-app.get('/',(req,res)=>{
-    res.send('Hello world!')
-})
+// bodyParser
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.json())
+
+// passport
+const passport = require('passport')
+app.use(passport.initialize());
 
 // Connect to Mongodb
 mongoose.connect(dbs,{
@@ -18,6 +23,17 @@ mongoose.connect(dbs,{
 }).catch((err)=>{
     console.log("MongoDb connect fail!!! -----",err)
 })
+
+// 引入users
+const users = require('./routers/api/Users')
+app.use('/api/users',users)
+
+// 引入profile
+const profits = require('./routers/api/Profits')
+app.use('/api/profits',profits)
+
+// passport
+require('./config/passport')(passport)
 
 const port = process.env.PORT || 5000
 
