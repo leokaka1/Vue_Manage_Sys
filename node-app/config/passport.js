@@ -13,11 +13,15 @@ module.exports = passport => {
     passport.use(new JwtStrategy(opts, (jwt_payload, done) =>{
         // console.log(jwt_payload)
         // 查找对应的用户
-        const user = User.findOne(jwt_payload.id)
-        if(user){
-            done(null,user)
-        }else{
-            done(null,false)
-        }
+        User.findById(jwt_payload.id).then(user=>{
+            if(user){
+                done(null,user)
+            }else{
+                done(null,false)
+            }
+        }).catch(err=>{
+            console.log(err)
+        })
+        
     }));
 }

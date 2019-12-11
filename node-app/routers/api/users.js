@@ -127,6 +127,7 @@ router.post("/login", async (req, res) => {
       // 匹配成功
       if (result) {
         // 使用 json web token
+
         // 把用户信息传入
         const rule = { 
           id: searchResult._id,
@@ -134,7 +135,7 @@ router.post("/login", async (req, res) => {
           name: searchResult.name,
           avatar:searchResult.avatar
         };
-        // 规则，名称，过期时间
+        // 设置JWT规则，名称，过期时间
         jwt.sign(rule, secret, { expiresIn: 3600 }, (err, token) => {
           if (err) throw err;
           res.json({
@@ -154,9 +155,35 @@ router.post("/login", async (req, res) => {
 });
 
 
-
+/**
+ * @api {post} /api/users/current 获取用户信息
+ * @apiDescription 获取用户信息
+ * @apiName current
+ * @apiGroup login
+ * @apiSuccess {json} result
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+    "code": 1,
+    "result": {
+        "date": "2019-12-10T08:11:08.663Z",
+        "_id": "5def53908db57832e872dfac",
+        "name": "leon",
+        "email": "leocaoxiaozhu@163.com",
+        "avatar": "//www.gravatar.com/avatar/3bb0d3dfce89b22d1c76c88f2b2e0e42?s=200&r=pg&d=mm",
+        "password": "$2b$10$nO8Ozg509oMPqvoI5pVhHekXBF8qVRjWX9vHjVBu7Wp/Ocv3bTseK",
+        "__v": 0
+    }
+}
+ * @apiSampleRequest http://localhost:5000/api/users/current
+ * @apiVersion 1.0.0
+ */
 router.get('/current',passport.authenticate("jwt",{session:false}), async (req,res)=>{
-    console.log(req,res)
+    // console.log(req.user)
+    res.json({
+        code:1,
+        result:req.user
+    })
 })
+
 
 module.exports = router;
