@@ -9,25 +9,6 @@ const passport = require('passport')
 const User = require("../../models/Users");
 
 /**
- * @api {get} /api/users/test 用户测试
- * @apiDescription 用户测试
- * @apiName test
- * @apiGroup login
- * @apiSuccess {json} msg
- * @apiSuccessExample {json} Success-Response:
- *  {
- *      "msg":"返回成功"
- *  }
- * @apiSampleRequest http://localhost:5000/api/users/test
- * @apiVersion 1.0.0
- */
-router.get("/test", (req, res) => {
-  res.json({
-    msg: "user login works"
-  });
-});
-
-/**
  * @api {post} /api/users/register 用户注册
  * @apiDescription 用户注册
  * @apiName register
@@ -36,18 +17,12 @@ router.get("/test", (req, res) => {
  * @apiParam {string} email 邮箱
  * @apiParam {string} password 密码
  * @apiParam {string} avatar 头像
- * @apiSuccess {json} result
+ * @apiSuccess {string} code 状态码 0：失败 1：成功
+ * @apiSuccess {string} msg 信息返回
  * @apiSuccessExample {json} Success-Response:
  *  {
  *      "code":"1",
- *      "result": {
-            "date": "2019-12-10T07:58:35.485Z",
-            "_id": "5def5064f39c7025b3c8840f",
-            "name": "leon",
-            "email": "leocaoxiaozhu1@163.com",
-            "password": "$2b$10$Cu0GmZDk8mKUvQbj8BhVnOkiLPZ7/vEa5xsC7GUeyjIkZy2LFd5AK",
-            "__v": 0
-        }
+ *      "msg": "用户注册成功"
  *  }
  * @apiSampleRequest http://localhost:5000/api/users/register
  * @apiVersion 1.0.0
@@ -64,12 +39,14 @@ router.post("/register", async (req, res) => {
   } else {
     // 获取头像
     const avatar = gravatar.url(req.body.email, { s: "200", r: "pg", d: "mm" });
+
     // 获取body中的值
     const newUsers = new User({
       name: req.body.name,
       email: req.body.email,
       avatar,
-      password: req.body.password
+      password: req.body.password,
+      identity:req.body.identity
     });
 
     // 盐值
@@ -84,7 +61,7 @@ router.post("/register", async (req, res) => {
         if (result) {
           res.json({
             code: 1,
-            result
+            msg:"用户注册成功"
           });
         }
       });
@@ -99,7 +76,9 @@ router.post("/register", async (req, res) => {
  * @apiGroup login
  * @apiParam {string} email 邮箱
  * @apiParam {string} password 密码
- * @apiSuccess {json} result
+ * @apiSuccess {string} code 状态码 0：失败 1：成功
+ * @apiSuccess {string} msg 结果信息
+ * @apiSuccess {string} token 获取Token值
  * @apiSuccessExample {json} Success-Response:
  *  {
       "code": 1,
@@ -129,11 +108,13 @@ router.post("/login", async (req, res) => {
         // 使用 json web token
 
         // 把用户信息传入
+        const {_id,email,name,avatar,identity} = searchResult
         const rule = { 
-          id: searchResult._id,
-          email:searchResult.email, 
-          name: searchResult.name,
-          avatar:searchResult.avatar
+          id: _id,
+          email,
+          name,
+          avatar,
+          identity
         };
         // 设置JWT规则，名称，过期时间
         jwt.sign(rule, secret, { expiresIn: 3600 }, (err, token) => {
@@ -160,18 +141,21 @@ router.post("/login", async (req, res) => {
  * @apiDescription 获取用户信息
  * @apiName current
  * @apiGroup login
- * @apiSuccess {json} result
+ * @apiSuccess {json} code 状态码 0：失败 1：成功
+ * @apiSuccess {json} result 返回结果
+ * @apiSuccess {string} id 用户Id
+ * @apiSuccess {string} name 用户姓名
+ * @apiSuccess {string} email 用户邮箱
+ * * @apiSuccess {string} identity 用户权限
  * @apiSuccessExample {json} Success-Response:
  *  {
-    "code": 1,
-    "result": {
-        "date": "2019-12-10T08:11:08.663Z",
-        "_id": "5def53908db57832e872dfac",
-        "name": "leon",
-        "email": "leocaoxiaozhu@163.com",
-        "avatar": "//www.gravatar.com/avatar/3bb0d3dfce89b22d1c76c88f2b2e0e42?s=200&r=pg&d=mm",
-        "password": "$2b$10$nO8Ozg509oMPqvoI5pVhHekXBF8qVRjWX9vHjVBu7Wp/Ocv3bTseK",
-        "__v": 0
+        "code": 1,
+        "result": {
+            "id": "5def53908db57832e872dfac",
+            "name": "leon",
+            "email": "leocaoxiaozhu@163.com"
+            "identity": "leocaoxiaozhu@163.com"
+        }
     }
 }
  * @apiSampleRequest http://localhost:5000/api/users/current
@@ -179,9 +163,17 @@ router.post("/login", async (req, res) => {
  */
 router.get('/current',passport.authenticate("jwt",{session:false}), async (req,res)=>{
     // console.log(req.user)
+    const {id,name,email,identity} = req.user
+    const userInfo = {
+        id,
+        name,
+        email,
+        identity
+    }
+
     res.json({
         code:1,
-        result:req.user
+        result:userInfo
     })
 })
 
