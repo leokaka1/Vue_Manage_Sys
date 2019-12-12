@@ -119,29 +119,27 @@
         methods: {
             submitForm(formName){
             this.$refs[formName].validate(async (valid) => {
-                if (valid) {
-                    
-                    // 请求axios
-                    const result = await this.$axios.post('api/users/register',this.registerUser)
-                    // console.log(result)
-                    const {code,msg} = result.data
-                    if(result){
-                        if(code === 0){
-                            this.$message.error(msg)
-                        }else{
-                            this.$message({
-                                message:"用户注册成功",
-                                type:"success"
-                            })
-
-                            // 跳转到login页面
-                            this.$router.push('/login')
+                    if (valid) {   
+                        // 请求axios
+                        const result = await this.$axios.post('api/users/register',this.registerUser)
+                        // console.log(result)
+                        const {code,msg} = result.data
+                        if(result){
+                            if(code === 0){
+                                this.$message.error(msg)
+                            }else{
+                                this.$message({
+                                    message:"用户注册成功",
+                                    type:"success"
+                                })
+                                // 跳转到login页面
+                                this.$router.push('/login')
+                            }
                         }
+                    } else {
+                        console.log('error submit!!');
+                        return false;
                     }
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
                 });
             }
         },
