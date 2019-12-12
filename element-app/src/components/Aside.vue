@@ -1,7 +1,7 @@
 <template>
   <div class="index_aside">
     <el-menu
-      default-active="1-1"
+      default-active="1"
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
@@ -9,7 +9,13 @@
       text-color="#fff"
       active-text-color="#ffd04b"
     >
-      <el-submenu index="1">
+
+     <el-menu-item index="1">
+        <i class="el-icon-menu"></i>
+        <span slot="title">首页</span>
+      </el-menu-item>
+    
+      <el-submenu index="2">
         <template slot="title">
           <i class="el-icon-location"></i>
           <span>金融入库</span>
@@ -34,6 +40,6 @@ export default {};
 }
 
 .el-menu .el-menu-item{
-        
+
 }
 </style>
