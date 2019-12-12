@@ -26,6 +26,8 @@
 </template>
 
 <script>
+// 解析token
+import jwt_decode from 'jwt-decode'
 export default {
     data() {
         return {
@@ -66,23 +68,24 @@ export default {
             
             //   请求登录
            const result = await this.$axios.post('/api/users/login',this.loginUser)
-           console.log(result)
-           const {code,msg,token} = result.data
+        //    console.log(result)
+           const {code,msg,token,data} = result.data
         //    请求成功
            if(code === 1){
                this.$message({
                    message:msg,
                    type:"success"
                })
+            
+            // 获取token(公用方法在tools中)
+            const jwt_result = this.$getToken()
+            this.$store.dispatch('setAuth',jwt_result.isEmpty)
+            this.$store.dispatch('setUser',jwt_result.tokenJwt)
+            this.$router.push('/index')
 
-                // 存储token
-                localStorage.setItem('token',token)
-
-               this.$router.push('/index')
            }else{
                this.$message.error(code)
            }
-
           } else {
             console.log('error submit!!');
             return false;

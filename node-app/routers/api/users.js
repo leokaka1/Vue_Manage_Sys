@@ -106,7 +106,6 @@ router.post("/login", async (req, res) => {
       // 匹配成功
       if (result) {
         // 使用 json web token
-
         // 把用户信息传入
         const {_id,email,name,avatar,identity} = searchResult
         const rule = { 
@@ -122,7 +121,8 @@ router.post("/login", async (req, res) => {
           res.json({
             code: 1,
             msg: "登录成功！",
-            token: "Bearer " + token
+            token: "Bearer " + token,
+            data:rule
           });
         });
       } else {
