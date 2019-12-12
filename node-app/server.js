@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
 
 // use MongoDb
 const mongoose = require('mongoose')
@@ -23,6 +24,8 @@ mongoose.connect(dbs,{
 }).catch((err)=>{
     console.log("MongoDb connect fail!!! -----",err)
 })
+
+app.use(cors())
 
 // 引入users
 const users = require('./routers/api/Users')

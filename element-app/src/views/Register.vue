@@ -3,7 +3,7 @@
         <section class="form_container">
             <div class="manage_tip">
                 <span class="title">Leon的后台接口管理系统</span>
-                <el-form :model="registerUser" :rules="rules" ref="registerForm" label-width="80px" class="registerForm">
+                <el-form status-icon :model="registerUser" :rules="rules" :label-position="labelPosition" ref="registerForm" label-width="80px" class="registerForm">
                     <!-- 用户名 -->
                     <el-form-item label="用户名" prop="name">
                         <el-input v-model="registerUser.name" placeholder="请输入用户名"></el-input>
@@ -20,7 +20,7 @@
                     </el-form-item>
 
                     <!-- 确认密码 -->
-                    <el-form-item label="确认密码" prop="name">
+                    <el-form-item label="确认密码" prop="password2">
                         <el-input type="password" v-model="registerUser.password2" placeholder="请确认密码"></el-input>
                     </el-form-item>
                     
@@ -44,14 +44,105 @@
     export default {
         name:'register',
         data() {
+            var validatePass2 = (rule, value, callback) => {   
+                if (value !== this.registerUser.password) {
+                    callback(new Error('两次输入密码不一致!'));
+                } else {
+                    callback();
+                }
+            };
             return {
+                labelPosition:'left',
                 registerUser:{
                     name:"",
                     email:"",
                     password:"",
                     password2:"",
                     identity:""
+                },
+                
+                rules:{
+                    name:[
+                        {
+                            required:true,
+                            message:"用户名不能为空",
+                            trigger:"blur",
+                        },
+                        {
+                            min:2,
+                            max:30,
+                            message:"长度需要在2-30个字符之间",
+                            trigger:"blur"
+                        }
+                    ],
+                    email:[
+                        {
+                            required:true,
+                            type:'email',
+                            message:"邮箱格式不正确",
+                            trigger:"blur"
+                        }
+                    ],
+                    password:[
+                        {
+                            required:true,
+                            message:"密码不能为空",
+                            trigger:"blur"
+                        },
+                        {
+                            min:6,
+                            max:30,
+                            message:"密码长度在6-30位之间",
+                            trigger:"blur"
+                        }
+                    ],
+                    password2:[
+                        {
+                            required:true,
+                            message:"密码不能为空",
+                            trigger:"blur"
+                        },
+                        {
+                            min:6,
+                            max:30,
+                            message:"密码长度在6-30位之间",
+                            trigger:"blur"
+                        },
+                        {
+                            validator:validatePass2,
+                            trigger:"blur"
+                        }
+                    ]
                 }
+            }
+        },
+        methods: {
+            submitForm(formName){
+            this.$refs[formName].validate(async (valid) => {
+                if (valid) {
+                    
+                    // 请求axios
+                    const result = await this.$axios.post('api/users/register',this.registerUser)
+                    // console.log(result)
+                    const {code,msg} = result.data
+                    if(result){
+                        if(code === 0){
+                            this.$message.error(msg)
+                        }else{
+                            this.$message({
+                                message:"用户注册成功",
+                                type:"success"
+                            })
+
+                            // 跳转到login页面
+                            this.$router.push('/login')
+                        }
+                    }
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+                });
             }
         },
     }
