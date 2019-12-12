@@ -9,14 +9,22 @@
 
           <el-col :span="6" class="user">
             <div class="userinfo">
-                <img src="user.avatar" class="avatar" alt="">
+                <img :src="user.avatar" class="avatar" alt="">
                 <div class="welcome">
                     <p class="name comename">欢迎</p>
-                    <p class="name avatarname">leon</p>
+                    <p class="name avatarname">{{user.name}}</p>
                 </div>
                 <span class="username">
-                    <!-- 下拉箭头 -->
-                    <img src="" alt="">
+
+                    <el-dropdown trigger="click" @command="seDialogInfo">
+                    <span class="el-dropdown-link">
+                        <i class="el-icon-caret-bottom el-icon--right"></i>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item command="info">个人信息</el-dropdown-item>
+                        <el-dropdown-item command="logout">退出</el-dropdown-item>
+                    </el-dropdown-menu>
+                    </el-dropdown>
                 </span>
             </div>   
           </el-col>
@@ -27,7 +35,12 @@
 
 <script>
 export default {
-  name: "heade-nav"
+  name: "heade-nav",
+  computed: {
+      user(){
+          return this.$store.getters.user
+      }
+  },
 };
 </script>
 

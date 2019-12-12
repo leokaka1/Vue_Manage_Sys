@@ -16,13 +16,19 @@ import {
     Menu,
     MenuItem,
     MenuItemGroup,
-    Submenu
+    Submenu,
+    Dropdown,
+    DropdownMenu,
+    DropdownItem
 } from 'element-ui'
 
 Message.install = function (Vue, options) {
     Vue.prototype.$message = Message
 }
 
+Vue.use(Dropdown)
+Vue.use(DropdownMenu)
+Vue.use(DropdownItem)
 Vue.use(Menu)
 Vue.use(MenuItem)
 Vue.use(MenuItemGroup)
