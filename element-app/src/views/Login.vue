@@ -3,7 +3,7 @@
     <section class="form_container">
       <div class="manage_tip">
         <span class="title">Leon的后台管理系统</span>
-         <el-form status-icon :model="loginUser" :rules="rules" :label-position="labelPosition" ref="loginForm" label-width="80px" class="loginForm">
+         <el-form :model="loginUser" :rules="rules" :label-position="labelPosition" ref="loginForm" label-width="80px" class="loginForm">
             <!-- 邮箱 -->
             <el-form-item label="邮箱" prop="email" >
                 <el-input clearable v-model="loginUser.email" placeholder="请输入Email"></el-input>

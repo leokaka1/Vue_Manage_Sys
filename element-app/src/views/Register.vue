@@ -3,7 +3,7 @@
         <section class="form_container">
             <div class="manage_tip">
                 <span class="title">Leon的后台接口管理系统</span>
-                <el-form status-icon :model="registerUser" :rules="rules" :label-position="labelPosition" ref="registerForm" label-width="80px" class="registerForm">
+                <el-form :model="registerUser" :rules="rules" :label-position="labelPosition" ref="registerForm" label-width="80px" class="registerForm">
                     <!-- 用户名 -->
                     <el-form-item label="用户名" prop="name">
                         <el-input clearable v-model="registerUser.name" placeholder="请输入用户名"></el-input>
