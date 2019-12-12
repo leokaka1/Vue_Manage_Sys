@@ -6,22 +6,22 @@
                 <el-form status-icon :model="registerUser" :rules="rules" :label-position="labelPosition" ref="registerForm" label-width="80px" class="registerForm">
                     <!-- 用户名 -->
                     <el-form-item label="用户名" prop="name">
-                        <el-input v-model="registerUser.name" placeholder="请输入用户名"></el-input>
+                        <el-input clearable v-model="registerUser.name" placeholder="请输入用户名"></el-input>
                     </el-form-item>
 
                     <!-- 邮箱 -->
                     <el-form-item label="邮箱" prop="email">
-                        <el-input v-model="registerUser.email" placeholder="请输入Email"></el-input>
+                        <el-input clearable v-model="registerUser.email" placeholder="请输入Email"></el-input>
                     </el-form-item>
 
                     <!-- 密码 -->
                     <el-form-item label="密码" prop="password">
-                        <el-input type="password" v-model="registerUser.password" placeholder="请输入密码"></el-input>
+                        <el-input show-password type="password" v-model="registerUser.password" placeholder="请输入密码"></el-input>
                     </el-form-item>
 
                     <!-- 确认密码 -->
                     <el-form-item label="确认密码" prop="password2">
-                        <el-input type="password" v-model="registerUser.password2" placeholder="请确认密码"></el-input>
+                        <el-input show-password type="password" v-model="registerUser.password2" placeholder="请确认密码"></el-input>
                     </el-form-item>
                     
                     <!-- 选择身份 -->
@@ -156,7 +156,7 @@
   position: relative;
   width: 100%;
   height: 100%;
-  background: url(../assets/bg.jpg) no-repeat center center;
+  background: url(../assets/bg_1.jpg) no-repeat center center;
   background-size: 100% 100%;
 }
 .form_container {

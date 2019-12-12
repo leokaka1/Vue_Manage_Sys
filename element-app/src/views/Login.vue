@@ -5,13 +5,13 @@
         <span class="title">Leon的后台管理系统</span>
          <el-form status-icon :model="loginUser" :rules="rules" :label-position="labelPosition" ref="loginForm" label-width="80px" class="loginForm">
             <!-- 邮箱 -->
-            <el-form-item label="邮箱" prop="email">
-                <el-input v-model="loginUser.email" placeholder="请输入Email"></el-input>
+            <el-form-item label="邮箱" prop="email" >
+                <el-input clearable v-model="loginUser.email" placeholder="请输入Email"></el-input>
             </el-form-item>
 
             <!-- 密码 -->
             <el-form-item label="密码" prop="password">
-                <el-input type="password" v-model="loginUser.password" placeholder="请输入密码"></el-input>
+                <el-input show-password type="password" v-model="loginUser.password" placeholder="请输入密码"></el-input>
             </el-form-item>
 
             <!-- 确认注册 -->
@@ -98,7 +98,7 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  background: url(../assets/bg.jpg) no-repeat center center;
+  background: url(../assets/bg_1.jpg) no-repeat center center;
   background-size: 100% 100%;
 }
 
@@ -106,7 +106,7 @@ export default {
   width: 370px;
   height: 210px;
   position: absolute;
-  top: 10%;
+  top: 25%;
   left: 34%;
   padding: 25px;
   border-radius: 5px;
