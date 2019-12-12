@@ -28,12 +28,14 @@
                     <el-form-item label="选择身份">
                         <el-select v-model="registerUser.identity" placeholder="请选择身份" class="id_selector">
                             <el-option label="管理员" value="manager"></el-option>
-                            <el-option label="员工" value="employee"></el-option>
+                            <el-option label="普通用户" value="employee"></el-option>
                         </el-select>
                     </el-form-item>
 
                     <!-- 确认注册 -->
                     <el-button type="primary" class="submit_btn" @click="submitForm('registerForm')">注册</el-button>
+                    <!-- 返回 -->
+                    <el-button type="infor" class="back_btn" @click="backFormPage">返回登录页面</el-button>
                 </el-form>
             </div>
         </section>
@@ -58,7 +60,7 @@
                     email:"",
                     password:"",
                     password2:"",
-                    identity:""
+                    identity:"employee"
                 },
                 
                 rules:{
@@ -117,6 +119,9 @@
             }
         },
         methods: {
+            backFormPage(){
+                this.$router.push('/login')
+            },
             submitForm(formName){
             this.$refs[formName].validate(async (valid) => {
                     if (valid) {   
@@ -184,5 +189,14 @@
 
 .submit_btn {
     width: 100%
+}
+
+.back_btn{
+    width: 100%;
+    margin-top: 10px
+}
+
+.el-button+.el-button{
+    margin-left: 0px
 }
 </style>
