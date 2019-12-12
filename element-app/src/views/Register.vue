@@ -26,16 +26,14 @@
                     
                     <!-- 选择身份 -->
                     <el-form-item label="选择身份">
-                        <el-select v-model="registerUser.identity" placeholder="请选择身份">
+                        <el-select v-model="registerUser.identity" placeholder="请选择身份" class="id_selector">
                             <el-option label="管理员" value="manager"></el-option>
                             <el-option label="员工" value="employee"></el-option>
                         </el-select>
                     </el-form-item>
 
                     <!-- 确认注册 -->
-                    <el-form-item>
-                        <el-button type="primary" class="submit_btn" @click="submitForm('registerForm')">注册</el-button>
-                    </el-form-item>
+                    <el-button type="primary" class="submit_btn" @click="submitForm('registerForm')">注册</el-button>
                 </el-form>
             </div>
         </section>
@@ -91,8 +89,11 @@
   box-shadow: 0px 5px 10px #cccc;
 }
 
+.id_selector{
+    width: 100%
+}
+
 .submit_btn {
-    width: 100%;
-    float: left;
+    width: 100%
 }
 </style>
