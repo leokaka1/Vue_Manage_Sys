@@ -17,9 +17,17 @@
       <el-submenu index="2">
         <template slot="title">
           <i class="el-icon-location"></i>
-          <span>金融入库</span>
+          <span>文章管理</span>
         </template>
-        <el-menu-item index="articlControl">库存列表</el-menu-item>
+        <el-menu-item index="articleList">文章列表</el-menu-item>
+      </el-submenu>
+
+      <el-submenu index="3">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span>金融管理</span>
+        </template>
+        <el-menu-item index="financialList">金融列表管理</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>

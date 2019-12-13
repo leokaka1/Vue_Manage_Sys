@@ -1,6 +1,6 @@
 <template>
     <div>
-        ArticleControl
+        ArticleList
     </div>
 </template>
 

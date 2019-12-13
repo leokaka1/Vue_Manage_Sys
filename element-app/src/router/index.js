@@ -5,7 +5,9 @@ import Register from '../views/Register.vue'
 import Notfound from '../views/404.vue'
 import Login from '../views/Login.vue'
 import Home from '../views/Home.vue'
-import Article from '../views/ArticleControl.vue'
+
+const Article = () => import(/* webpackChunkName: "group-foo" */ '../views/ArticleList.vue')
+const Financial = () => import(/* webpackChunkName: "group-foo" */ '../views/FinancialList.vue')
 
 Vue.use(VueRouter)
 
@@ -23,8 +25,11 @@ const routes = [
         path:'',component:Home,
       },
       {
-        path:'/articlControl',component:Article,
-      }
+        path:'/articleList',component:Article,
+      },
+      {
+        path:'/financialList',component:Financial,
+      },
     ]
   },
   {
@@ -44,15 +49,13 @@ const routes = [
   },
 ]
 
-
-
-
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
 
+// 路由守卫
 router.beforeEach((to, from, next) => {
   const token =  localStorage.getItem('token')
 
