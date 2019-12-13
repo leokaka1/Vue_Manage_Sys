@@ -14,27 +14,52 @@
         <span slot="title">首页</span>
       </el-menu-item>
     
-      <el-submenu index="2">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>文章管理</span>
-        </template>
-        <el-menu-item index="articleList">文章列表</el-menu-item>
-      </el-submenu>
-
-      <el-submenu index="3">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>金融管理</span>
-        </template>
-        <el-menu-item index="financialList">金融列表管理</el-menu-item>
-      </el-submenu>
+      <!-- 遍历取元素 -->
+      <template v-for="(item) in menuList">
+        <el-submenu v-if="item.itemList" :index="item.path" :key="item.path">
+          <template slot="title">
+            <i class="el-icon-location"></i>
+            <span>{{item.title}}</span>
+          </template>
+          <el-menu-item v-for="(citem) in item.itemList" :key="citem.path" :index="citem.path">
+            {{citem.itemTitle}}
+          </el-menu-item>
+        </el-submenu>
+      </template>
+      
     </el-menu>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      menuList:[
+        {
+          title:'文章管理',
+          path:'article',
+          itemList:[
+            {
+              itemTitle:'文章列表',
+              path:'articleList'
+            }
+          ]
+        },
+        {
+          title:'金融管理',
+          path:'financial',
+          itemList:[
+            {
+              itemTitle:'金融列表管理',
+              path:'financialList'
+            }
+          ]
+        }
+      ]
+    }
+  },
+};
 </script>
 
 <style scoped>
@@ -44,9 +69,5 @@ export default {};
 
 .el-menu{
     border-right: 0
-}
-
-.el-menu .el-menu-item{
-
 }
 </style>
