@@ -23,7 +23,9 @@ import {
     Submenu,
     Dropdown,
     DropdownMenu,
-    DropdownItem
+    DropdownItem,
+    Table,
+    TableColumn
 } from 'element-ui'
 
 Message.install = function (Vue, options) {
@@ -31,6 +33,8 @@ Message.install = function (Vue, options) {
 }
 
 Vue.component(CollapseTransition.name, CollapseTransition)
+Vue.use(Table)
+Vue.use(TableColumn)
 Vue.use(Dropdown)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)

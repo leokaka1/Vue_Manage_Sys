@@ -38,12 +38,11 @@ _axios.interceptors.request.use(
     // 开始动画
     startLoading()
 
-    // // 判断token
-    // if(localStorage.token){
-    //   // 设置统一的header
-    //   config.headers.Authorization = localStorage.token
-    // }
-
+    // 判断token
+    if(localStorage.token){
+      // 设置统一的header
+      config.headers.Authorization = localStorage.token
+    }
     return config;
   },
   function(error) {
