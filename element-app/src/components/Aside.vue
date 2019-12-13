@@ -1,14 +1,15 @@
 <template>
   <div class="index_aside">
     <el-menu
-      default-active="1"
+      default-active="index"
       class="el-menu-vertical-demo"
       background-color="#113152"
       text-color="#fff"
       active-text-color="#ffd04b"
+      router
     >
 
-     <el-menu-item index="1">
+     <el-menu-item index="index">
         <i class="el-icon-menu"></i>
         <span slot="title">首页</span>
       </el-menu-item>
@@ -18,7 +19,7 @@
           <i class="el-icon-location"></i>
           <span>金融入库</span>
         </template>
-        <el-menu-item index="1-1">库存列表</el-menu-item>
+        <el-menu-item index="articlControl">库存列表</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>

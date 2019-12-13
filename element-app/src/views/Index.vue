@@ -8,7 +8,9 @@
           <el-aside width="200px" class="index_aside">
               <Aside/>
           </el-aside>
-          <el-main class="index_main">Main</el-main>
+          <el-main class="index_main">
+            <router-view></router-view>
+          </el-main>
       </el-container>
     </el-container>
   </div>
@@ -18,6 +20,7 @@
 import jwt_decode from "jwt-decode";
 import HeaderNav from "../components/Header";
 import Aside from '../components/Aside'
+
 export default {
   name: "index",
   created() {
@@ -55,7 +58,4 @@ export default {
     background-color: #113152
 }
 
-.body .index_main{
-    /* background-color: blue */
-}
 </style>
