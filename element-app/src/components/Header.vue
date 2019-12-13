@@ -41,6 +41,31 @@ export default {
           return this.$store.getters.user
       }
   },
+  methods: {
+    // 显示下拉弹窗
+    seDialogInfo(cmdItem){
+      switch(cmdItem){
+        case 'info':
+          this.showInfoList()
+          break
+        case 'logout':
+          this.logout()
+          break  
+      }
+    },
+    showInfoList(){
+      console.log('这是个人信息')
+    },
+    logout(){
+      // console.log('这是退出')
+      // 清除token
+      localStorage.removeItem('token')
+      // 清除store
+      this.$store.dispatch('clearCurrentInfo')
+      // 返回登录界面
+      this.$router.push('/login')
+    }
+  },
 };
 </script>
 

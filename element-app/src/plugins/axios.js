@@ -3,6 +3,7 @@
 import Vue from 'vue';
 import axios from "axios";
 import {Message, Loading} from 'element-ui'
+import router from '../router/index'
 
 let loading
 // 开始加载动画
@@ -36,6 +37,13 @@ _axios.interceptors.request.use(
   function(config) {
     // 开始动画
     startLoading()
+
+    // // 判断token
+    // if(localStorage.token){
+    //   // 设置统一的header
+    //   config.headers.Authorization = localStorage.token
+    // }
+
     return config;
   },
   function(error) {
@@ -51,12 +59,24 @@ _axios.interceptors.response.use(
   function(response) {
     // 结束动画 
     endLoading()
+
     return response;
   },
   function(error) {
     // Do something with response error
     endLoading()
     Message.error(error.response.data)
+
+    // 获取错误状态码
+    const {status} = error.status
+    if(status == 401){
+      Message.error('token失效请重新登录！')
+      // 清除token
+      localStorage.removeItem('token')
+      // 跳转去登录页面
+      router.push('/login')
+    }
+
     return Promise.reject(error);
   }
 );

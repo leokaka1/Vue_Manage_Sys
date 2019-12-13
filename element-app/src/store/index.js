@@ -16,7 +16,7 @@ const state = {
 
 const getters = {
   isAuth : state => state.isAuth,
-  user : state=>state.user
+  user : state =>state.user
 }
 
 const mutations = {
@@ -44,6 +44,11 @@ const actions = {
 
   setUser:({commit},user)=>{
     commit(type.SET_USER,user)
+  },
+
+  clearCurrentInfo:({commit}) =>{
+    commit(type.SET_USER,null),
+    commit(type.SET_AUTH,false)
   }
 }
 

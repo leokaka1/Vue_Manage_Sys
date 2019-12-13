@@ -2,7 +2,7 @@
   <div class="login">
     <section class="form_container">
       <div class="manage_tip">
-        <span class="title">Leon的后台管理系统</span>
+        <span class="title">小肥宅后台管理系统</span>
          <el-form :model="loginUser" :rules="rules" :label-position="labelPosition" ref="loginForm" label-width="80px" class="loginForm">
             <!-- 邮箱 -->
             <el-form-item label="邮箱" prop="email" >
@@ -68,8 +68,10 @@ export default {
             
             //   请求登录
            const result = await this.$axios.post('/api/users/login',this.loginUser)
-        //    console.log(result)
+           console.log(result)
            const {code,msg,token,data} = result.data
+          //  存储token
+          localStorage.setItem('token',token)
         //    请求成功
            if(code === 1){
                this.$message({

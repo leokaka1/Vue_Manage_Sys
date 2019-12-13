@@ -116,7 +116,7 @@ router.post("/login", async (req, res) => {
           identity
         };
         // 设置JWT规则，名称，过期时间
-        jwt.sign(rule, secret, { expiresIn: 3600 }, (err, token) => {
+        jwt.sign(rule, secret, { expiresIn: 3600   }, (err, token) => {
           if (err) throw err;
           res.json({
             code: 1,

@@ -1,3 +1,7 @@
+// fade/zoom 等
+import 'element-ui/lib/theme-chalk/base.css';
+// collapse 展开折叠
+import CollapseTransition from 'element-ui/lib/transitions/collapse-transition';
 import Vue from 'vue'
 import { 
     Button,
@@ -26,6 +30,7 @@ Message.install = function (Vue, options) {
     Vue.prototype.$message = Message
 }
 
+Vue.component(CollapseTransition.name, CollapseTransition)
 Vue.use(Dropdown)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
