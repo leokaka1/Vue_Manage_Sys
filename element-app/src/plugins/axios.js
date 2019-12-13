@@ -64,10 +64,9 @@ _axios.interceptors.response.use(
   function(error) {
     // Do something with response error
     endLoading()
-    Message.error(error.response.data)
-
+    // console.log('error',error,status)
     // 获取错误状态码
-    const {status} = error.status
+    const {status} = error.response
     if(status == 401){
       Message.error('token失效请重新登录！')
       // 清除token
