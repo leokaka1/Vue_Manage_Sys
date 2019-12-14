@@ -159,6 +159,10 @@ export default {
     },
     async Delete(){
       const result = await this.$axios.delete(`/api/profits/delete/${this.rowId}`)
+      this.$message({
+        message:"信息删除成功!",
+        type:'success'
+      })
       if(result){
         this.dialogVisible = false
       }
