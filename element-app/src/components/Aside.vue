@@ -1,15 +1,16 @@
 <template>
   <div class="index_aside">
     <el-menu
-      default-active="index"
+      :default-active="$route.path"
       class="el-menu-vertical-demo"
       background-color="#113152"
       text-color="#fff"
       active-text-color="#ffd04b"
       router
+      :unique-opened="true"
     >
 
-     <el-menu-item index="index">
+     <el-menu-item index="/index">
         <i class="el-icon-menu"></i>
         <span slot="title">首页</span>
       </el-menu-item>
@@ -33,8 +34,12 @@
 
 <script>
 export default {
+  created() {
+    
+  },
   data() {
     return {
+      path:'/index',
       menuList:[
         {
           title:'文章管理',
@@ -42,17 +47,17 @@ export default {
           itemList:[
             {
               itemTitle:'文章列表',
-              path:'articleList'
+              path:'/articleList'
             }
           ]
         },
         {
           title:'金融管理',
-          path:'financial',
+          path:'/financial',
           itemList:[
             {
               itemTitle:'金融列表管理',
-              path:'financialList'
+              path:'/financialList'
             }
           ]
         }

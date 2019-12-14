@@ -81,7 +81,7 @@
     title="提示"
     :visible.sync="dialogVisible"
     width="30%"
-    :before-close="handleClose">
+    >
     <span>确认删除么？</span>
     <span slot="footer" class="dialog-footer">
       <el-button @click="dialogVisible = false">取 消</el-button>
