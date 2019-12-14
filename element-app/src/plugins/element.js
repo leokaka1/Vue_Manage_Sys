@@ -27,6 +27,7 @@ import {
     Table,
     TableColumn,
     Dialog,
+    Pagination
 } from 'element-ui'
 
 Message.install = function (Vue, options) {
@@ -34,6 +35,7 @@ Message.install = function (Vue, options) {
 }
 
 Vue.component(CollapseTransition.name, CollapseTransition)
+Vue.use(Pagination)
 Vue.use(Dialog)
 Vue.use(Table)
 Vue.use(TableColumn)

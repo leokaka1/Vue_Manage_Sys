@@ -10,9 +10,8 @@
 
     <div class="table">
       <el-table
-        v-if="tableData.length > 0"
-        :data="tableData"
-        max-height="615"
+        :data="tableData.slice((pagenations.page_index-1)*pagenations.page_size,pagenations.page_index*pagenations.page_size)"
+        max-height="685"
         border
       >
         <el-table-column type="index" label="序号" align="center" width="50">
@@ -73,6 +72,24 @@
         </el-table-column>
       </el-table>
     </div>
+
+    <!-- 分页 -->
+    <el-row>
+      <el-col :span="24">
+        <div class="pagenation">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page.sync="pagenations.page_index"
+            :page-sizes="pagenations.page_sizes"
+            :page-size="pagenations.page_size"
+            :layout="pagenations.layout"
+            :total="tableData.length">
+          </el-pagination>
+        </div>
+      </el-col>
+    </el-row>
+
     <!-- 对话框 -->
     <Dialog :dialog="dialog" :formData="formData" @update="getProfile"/>
 
@@ -97,6 +114,17 @@ import Dialog from "../components/Dialog";
 export default {
   data() {
     return {
+      pagenations:{
+        // 当前位于
+        page_index:1,
+        // 总数
+        total:0,
+        //一页显示多少
+        page_size:5,
+        //  每页显示多少
+        page_sizes:[5,10,15,20],
+        layout:"total, sizes, prev, pager, next, jumper"
+      },
       dialogVisible:false,
       rowId:'',
       tableData: [],
@@ -123,16 +151,31 @@ export default {
     this.getProfile();
   },
   methods: {
-    async getProfile() {
+    // 切换分页时
+    handleSizeChange(page_size){
+      // console.log(page_size)
+      this.pagenations.page_size = page_size
+    },
+
+    handleCurrentChange(page){
+      console.log("223")
+      this.pagenations.page_index = page
+    },
+    async getProfile(page=1) {
       // 获取表格数据
-      const result = await this.$axios.get("api/profits/");
-      // console.log(result.data)
+      const result = await this.$axios.get("api/profits/",{params:{page:page,page_size:10}});
+      console.log(result.data)
       const { data, code } = result.data;
       if (code == 1) {
         this.tableData = data;
+        // 设置pagination的设置
+        this.setPagination(data)
       } else {
         this.$message.error("返回错误");
       }
+    },
+    setPagination(data){
+      this.pagenations.total = data.length
     },
     handleEdit(index, row) {
       console.log("edit");
@@ -191,5 +234,9 @@ export default {
 }
 .button_right {
   float: right;
+}
+.pagenation{
+  text-align: right;
+  margin-top: 10px
 }
 </style>

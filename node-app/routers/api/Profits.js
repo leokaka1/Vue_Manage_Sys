@@ -116,7 +116,12 @@ router.post('/edit/:id',passport.authenticate('jwt',{session:false}),async(req,r
  * @apiVersion 1.0.0
  */
 router.get('/',passport.authenticate('jwt',{session:false}), async (req,res)=>{
-    const result = await Profits.find({})
+    // console.log(req.query)
+    const page = Number(req.query.page)
+    const page_size = Number(req.query.page_size)
+    // console.log(page,page_size)
+    const result = await Profits.find({}).skip((page-1) * page_size).limit(page_size)
+    // console.log(result)
     if(result){
         res.json({
             code:1,
