@@ -8,14 +8,12 @@
       </el-form-item>
     </el-form>
 
-    <div>
+    <div class="table">
       <el-table
         v-if="tableData.length > 0"
         :data="tableData"
-        max-height="450"
+        max-height="615"
         border
-        fit=""
-        style="width: 100%"
       >
         <el-table-column type="index" label="序号" align="center" width="50">
         </el-table-column>
@@ -76,7 +74,20 @@
       </el-table>
     </div>
     <!-- 对话框 -->
-    <Dialog :dialog="dialog" />
+    <Dialog :dialog="dialog" :formData="formData" @update="getProfile"/>
+
+    <!-- 删除的对话框 -->
+    <el-dialog
+    title="提示"
+    :visible.sync="dialogVisible"
+    width="30%"
+    :before-close="handleClose">
+    <span>确认删除么？</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="dialogVisible = false">取 消</el-button>
+      <el-button type="primary" @click="Delete">确 定</el-button>
+    </span>
+  </el-dialog>
     
   </div>
 </template>
@@ -86,9 +97,22 @@ import Dialog from "../components/Dialog";
 export default {
   data() {
     return {
+      dialogVisible:false,
+      rowId:'',
       tableData: [],
+      formData: {
+        type: "",
+        desc: "",
+        income: "",
+        expend: "",
+        cash: "",
+        remark: "",
+        id: ""
+      },
       dialog: {
-        show: false
+        show: false,
+        title:'',
+        option:'edit'
       }
     };
   },
@@ -112,13 +136,43 @@ export default {
     },
     handleEdit(index, row) {
       console.log("edit");
+      this.dialog = {
+        show:true,
+        title:"修改资金信息"
+      }
+      
+      const {type,desc,income,expend,cash,remark,_id} = row
+      this.formData = {
+        type,
+        desc,
+        income,
+        expend,
+        cash,
+        remark,
+        _id
+      }
     },
     handleDelete(index, row) {
-      console.log("delete");
+      // 删除
+      this.dialogVisible = true
+      this.rowId = row._id
+    },
+    async Delete(){
+      const result = await this.$axios.delete(`/api/profits/delete/${this.rowId}`)
+      if(result){
+        this.dialogVisible = false
+      }
+      this.getProfile()
     },
     handleAdd() {
       // console.log('add')
-      this.dialog.show = true;
+      this.dialog = {
+        show:true,
+        title:"添加资金信息",
+        option:'new'
+      },
+
+      this.formData = {}
     }
   }
 };
