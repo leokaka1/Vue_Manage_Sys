@@ -11,7 +11,6 @@
     <div class="table">
       <el-table
         :data="tableData.slice((pagenations.page_index-1)*pagenations.page_size,pagenations.page_index*pagenations.page_size)"
-        max-height="685"
         border
       >
         <el-table-column type="index" label="序号" align="center" width="50">
@@ -158,13 +157,12 @@ export default {
     },
 
     handleCurrentChange(page){
-      console.log("223")
       this.pagenations.page_index = page
     },
     async getProfile(page=1) {
       // 获取表格数据
       const result = await this.$axios.get("api/profits/",{params:{page:page,page_size:10}});
-      console.log(result.data)
+      // console.log(result.data)
       const { data, code } = result.data;
       if (code == 1) {
         this.tableData = data;

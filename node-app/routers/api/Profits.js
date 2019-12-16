@@ -30,6 +30,7 @@ router.post('/add',passport.authenticate('jwt',{session:false}),async(req,res)=>
     if(type) profitsFields.remark = remark
 
     const result = await Profits(profitsFields).save()
+    // console.log(result)
     if(result){
         res.send({
             code:1,
@@ -117,10 +118,10 @@ router.post('/edit/:id',passport.authenticate('jwt',{session:false}),async(req,r
  */
 router.get('/',passport.authenticate('jwt',{session:false}), async (req,res)=>{
     // console.log(req.query)
-    const page = Number(req.query.page)
-    const page_size = Number(req.query.page_size)
+    // const page = Number(req.query.page)
+    // const page_size = Number(req.query.page_size)
     // console.log(page,page_size)
-    const result = await Profits.find({}).skip((page-1) * page_size).limit(page_size)
+    const result = await Profits.find({})//.skip((page-1) * page_size).limit(page_size)
     // console.log(result)
     if(result){
         res.json({

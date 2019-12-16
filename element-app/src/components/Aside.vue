@@ -11,7 +11,7 @@
     >
 
      <el-menu-item index="/index">
-        <i class="el-icon-menu"></i>
+        <i class="el-icon-s-home"></i>
         <span slot="title">首页</span>
       </el-menu-item>
     
@@ -23,6 +23,7 @@
             <span>{{item.title}}</span>
           </template>
           <el-menu-item v-for="(citem) in item.itemList" :key="citem.path" :index="citem.path">
+            <i class="el-icon-menu"></i>
             {{citem.itemTitle}}
           </el-menu-item>
         </el-submenu>

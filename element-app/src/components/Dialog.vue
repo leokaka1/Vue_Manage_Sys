@@ -68,8 +68,8 @@
           </el-form-item>
 
           <el-form-item>
-            <el-button class="submitBtn" type="primary" @click="onSubmit('formData')">提交</el-button>
             <el-button class="submitBtn" type="infor" @click="hide('formData')">取消</el-button>
+            <el-button class="submitBtn" type="primary" @click="onSubmit('formData')">提交</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -89,7 +89,7 @@ export default {
       this.$refs[formName].validate(async vali=>{
         if(vali){
           // 添加新的内容
-          if(this.dialog.option == 'new'){
+          if(this.dialog.option === 'new'){
             this.url = '/api/profits/add'
             this.noticeMeg = "信息添加成功"
           }else{
@@ -98,7 +98,7 @@ export default {
           }
 
           const result = await this.$axios.post(this.url,this.formData)
-          // console.log(result)
+          console.log(result)
           // 清除对话框
           this.dialog.show = false
           // 显示提示
@@ -142,8 +142,8 @@ export default {
 
 <style scoped>
 .submitBtn {
-  width: 35%;
+  float: right;
   margin-top: 10px;
-  margin-left: 5%
+  margin-right: 15px;
 }
 </style>
