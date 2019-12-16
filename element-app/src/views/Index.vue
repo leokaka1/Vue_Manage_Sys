@@ -1,13 +1,17 @@
 <template>
   <div class="index">
     <el-container class="index_container">
+      <!-- 头部区域 -->
       <el-header>
         <HeaderNav/>
       </el-header>
+      <!-- 内容区 -->
       <el-container class="body">
+        <!-- 左侧的侧边栏 -->
           <el-aside width="200px" class="index_aside">
               <Aside/>
           </el-aside>
+          <!-- 右边的主体区 -->
           <el-main class="index_main">
             <router-view></router-view>
           </el-main>
@@ -46,7 +50,8 @@ export default {
     padding:0px;
 }
 .el-main{
-    padding: 0px
+    padding: 0px;
+    background-color: #EAEDF1
 }
 .index_container{
     height: 100%;
