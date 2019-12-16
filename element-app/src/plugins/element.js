@@ -31,7 +31,8 @@ import {
     Card,
     Breadcrumb,
     BreadcrumbItem,
-    Switch
+    Switch,
+    Tooltip
 } from 'element-ui'
 
 Message.install = function (Vue, options) {
@@ -39,6 +40,7 @@ Message.install = function (Vue, options) {
 }
 
 Vue.component(CollapseTransition.name, CollapseTransition)
+Vue.use(Tooltip)
 Vue.use(Breadcrumb)
 Vue.use(Switch)
 Vue.use(BreadcrumbItem)

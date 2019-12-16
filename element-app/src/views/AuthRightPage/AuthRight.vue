@@ -29,11 +29,21 @@
           </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
-          <el-button type="warning" size="mini" icon="el-icon-edit"></el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete"></el-button>
-          <el-button type="primary" size="mini" icon="el-icon-setting"></el-button>
+          <el-tooltip class="item" effect="dark" content="修改用户信息" placement="top">
+            <el-button type="warning" size="mini" icon="el-icon-edit"></el-button>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="删除用户" placement="top">
+            <el-button type="danger" size="mini" icon="el-icon-delete"></el-button>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="修改权限" placement="top">
+            <el-button type="primary" size="mini" icon="el-icon-setting"></el-button>
+          </el-tooltip>
       </el-table-column>
     </el-table>
+
+
+    <!-- 添加用户的弹窗 -->
+
   </div>
 </template>
 
