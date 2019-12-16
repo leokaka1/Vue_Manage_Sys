@@ -44,7 +44,7 @@ export default {
           path:'authRight',
           itemList:[
             {
-              itemTitle:'用户列表',
+              itemTitle:'用户审核列表',
               path:'/authRight'
             }
           ]

@@ -89,17 +89,22 @@ router.post("/register", async (req, res) => {
  * @apiVersion 1.0.0
  */
 router.post("/login", async (req, res) => {
-  const email = req.body.email;
+  const name = req.body.name;
   const password = req.body.password;
 
-  const searchResult = await User.findOne({ email });
-  // console.log(searchResult)
+  const searchResult = await User.findOne({ name });
+  console.log(searchResult)
   if (!searchResult) {
     res.json({
       code: 0,
       msg: "用户不存在!"
     });
-  } else {
+  }else if(searchResult.access == false){
+    res.json({
+      code: 0,
+      msg: "用户正在审核中，请稍后再试！"
+    });
+  }else {
     // 密码匹配
     bcrypt.compare(password, searchResult.password, (err, result) => {
       // res == true
@@ -107,13 +112,14 @@ router.post("/login", async (req, res) => {
       if (result) {
         // 使用 json web token
         // 把用户信息传入
-        const {_id,email,name,avatar,identity} = searchResult
+        const {_id,email,name,avatar,identity,access} = searchResult
         const rule = { 
           id: _id,
           email,
           name,
           avatar,
-          identity
+          identity,
+          access
         };
         // 设置JWT规则，名称，过期时间
         jwt.sign(rule, secret, { expiresIn: 3600 }, (err, token) => {
@@ -178,10 +184,11 @@ router.get('/current',passport.authenticate("jwt",{session:false}), async (req,r
 })
 
 
+// 获取所有的用户除了admin管理员账户之外
 router.get('/getUsers',passport.authenticate("jwt",{session:false}), async (req,res)=>{
   // console.log(req.user)
-  const result = await User.find({},{__v:0})
-  console.log(result)
+  const result = await User.find({"name":{$ne:"admin"}},{__v:0,password:0})
+  // console.log(result)
   if(result){
     res.json({
         code:1,
@@ -191,6 +198,26 @@ router.get('/getUsers',passport.authenticate("jwt",{session:false}), async (req,
     res.json({
       code:0,
       msg:"暂无数据"
+    })
+  }
+})
+
+// 开通用户
+router.post('/changeUserState/:id',passport.authenticate("jwt",{session:false}), async (req,res)=>{
+  // console.log(req.params.id)
+  const newAccess = req.body.access
+  // console.log(newAccess)
+  const result = await User.update({_id:req.params.id},{access:newAccess})
+  // console.log(result)
+  if(result){
+    res.json({
+        code:1,
+        msg:"用户已开通"
+    })
+  }else{
+    res.json({
+      code:0,
+      msg:"用户开通失败"
     })
   }
 })

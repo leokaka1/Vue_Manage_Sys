@@ -12,11 +12,11 @@
           class="loginForm"
         >
           <!-- 邮箱 -->
-          <el-form-item label="邮箱" prop="email">
+          <el-form-item label="用户名" prop="name">
             <el-input
               clearable
-              v-model="loginUser.email"
-              placeholder="请输入Email"
+              v-model="loginUser.name"
+              placeholder="请输入用户名"
             ></el-input>
           </el-form-item>
 
@@ -56,16 +56,18 @@ export default {
     return {
       labelPosition: "left",
       loginUser: {
-        email: "",
+        name:"",
         password: ""
       },
       rules: {
         email: [
           {
             required: true,
-            type: "email",
-            message: "请输入正确的邮箱",
+            message: "请输入正确的用户名",
             trigger: "blur"
+          },
+          {
+            min:3,max:30,message:"请输入3-30位的用户名",trigger:"blur"  
           }
         ],
         password: [
@@ -98,7 +100,7 @@ export default {
           //  存储token
           localStorage.setItem("token", token);
           //    请求成功
-          if (code === 1) {
+          if (code === 1 && data.access == true) {
             this.$message({
               message: msg,
               type: "success"
@@ -110,7 +112,7 @@ export default {
             this.$store.dispatch("setUser", jwt_result.tokenJwt);
             this.$router.push("/index");
           } else {
-            this.$message.error(code);
+            this.$message.error(msg);
           }
         } else {
           console.log("error submit!!");

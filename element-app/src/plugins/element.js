@@ -30,7 +30,8 @@ import {
     Pagination,
     Card,
     Breadcrumb,
-    BreadcrumbItem
+    BreadcrumbItem,
+    Switch
 } from 'element-ui'
 
 Message.install = function (Vue, options) {
@@ -39,6 +40,7 @@ Message.install = function (Vue, options) {
 
 Vue.component(CollapseTransition.name, CollapseTransition)
 Vue.use(Breadcrumb)
+Vue.use(Switch)
 Vue.use(BreadcrumbItem)
 Vue.use(Pagination)
 Vue.use(Card)

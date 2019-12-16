@@ -11,7 +11,7 @@
     <div class="table">
       <el-table
         :data="tableData.slice((pagenations.page_index-1)*pagenations.page_size,pagenations.page_index*pagenations.page_size)"
-        border
+        border stripe fit show-header
       >
         <el-table-column type="index" label="序号" align="center" width="50">
         </el-table-column>
