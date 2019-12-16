@@ -178,4 +178,22 @@ router.get('/current',passport.authenticate("jwt",{session:false}), async (req,r
 })
 
 
+router.get('/getUsers',passport.authenticate("jwt",{session:false}), async (req,res)=>{
+  // console.log(req.user)
+  const result = await User.find({},{__v:0})
+  console.log(result)
+  if(result){
+    res.json({
+        code:1,
+        result
+    })
+  }else{
+    res.json({
+      code:0,
+      msg:"暂无数据"
+    })
+  }
+})
+
+
 module.exports = router;

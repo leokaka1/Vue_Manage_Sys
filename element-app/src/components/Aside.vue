@@ -35,13 +35,20 @@
 
 <script>
 export default {
-  created() {
-    
-  },
   data() {
     return {
       path:'/index',
       menuList:[
+        {
+          title:'权限管理',
+          path:'authRight',
+          itemList:[
+            {
+              itemTitle:'用户列表',
+              path:'/authRight'
+            }
+          ]
+        },
         {
           title:'文章管理',
           path:'article',

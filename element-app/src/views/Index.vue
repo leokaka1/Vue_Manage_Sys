@@ -3,18 +3,23 @@
     <el-container class="index_container">
       <!-- 头部区域 -->
       <el-header>
-        <HeaderNav/>
+        <HeaderNav />
       </el-header>
       <!-- 内容区 -->
       <el-container class="body">
         <!-- 左侧的侧边栏 -->
-          <el-aside width="200px" class="index_aside">
-              <Aside/>
-          </el-aside>
-          <!-- 右边的主体区 -->
-          <el-main class="index_main">
+        <el-aside width="200px" class="index_aside">
+          <Aside />
+        </el-aside>
+        <!-- 右边的主体区 -->
+        <el-main class="index_main">
+          <!-- 显示面包屑导航和折叠按钮 -->
+          <Breadcrumb/>
+          <!-- 用card包裹内容 -->
+          <el-card>
             <router-view></router-view>
-          </el-main>
+          </el-card>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -23,7 +28,8 @@
 <script>
 import jwt_decode from "jwt-decode";
 import HeaderNav from "../components/Header";
-import Aside from '../components/Aside'
+import Aside from "../components/Aside";
+import Breadcrumb from '../components/Breadcrumb'
 
 export default {
   name: "index",
@@ -35,32 +41,40 @@ export default {
   },
   components: {
     HeaderNav,
-    Aside
+    Aside,
+    Breadcrumb
   }
 };
 </script>
 
 <style scoped>
-.index{
-    width: 100%;
-    height: 100%;
+.index {
+  width: 100%;
+  height: 100%;
 }
-.el-header{
-    width: 100%;
-    padding:0px;
+.el-header {
+  width: 100%;
+  padding: 0px;
 }
-.el-main{
-    padding: 0px;
-    background-color: #EAEDF1
+.el-main {
+  padding: 0px;
+  background-color: #eaedf1;
 }
-.index_container{
-    height: 100%;
-    padding: 0
+.index_container {
+  height: 100%;
+  padding: 0;
 }
 
-.body .index_aside{
-    height: 100%;
-    background-color: #113152
+.body .index_aside {
+  height: 100%;
+  background-color: #113152;
 }
+
+.el-card {
+  margin: 20px;
+  margin-top: 20px;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.15)!;
+}
+
 
 </style>
