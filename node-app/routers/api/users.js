@@ -186,7 +186,7 @@ router.get('/current',passport.authenticate("jwt",{session:false}), async (req,r
 
 // 获取所有的用户除了admin管理员账户之外
 router.get('/getUsers',passport.authenticate("jwt",{session:false}), async (req,res)=>{
-  console.log("params",req.query)
+  // console.log("params",req.query)
   const {name} = req.query
   let result = {}
   if(name == ''){

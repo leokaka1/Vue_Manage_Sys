@@ -2,13 +2,21 @@
   <div>
     <el-row :gutter="40">
       <el-col :span="6">
-        <el-input placeholder="请输入内容" class="input-with-select" v-model="query">
-          <el-button slot="append" icon="el-icon-search" @click="searchUser"></el-button>
+        <el-input
+          placeholder="请输入内容"
+          class="input-with-select"
+          v-model="query"
+        >
+          <el-button
+            slot="append"
+            icon="el-icon-search"
+            @click="searchUser"
+          ></el-button>
         </el-input>
       </el-col>
       <!-- 按钮区域 -->
       <el-col :span="6">
-        <el-button type="primary">添加用户</el-button>
+        <el-button type="primary" @click="addUser">添加用户</el-button>
       </el-col>
     </el-row>
 
@@ -110,20 +118,25 @@
         </div>
       </el-col>
     </el-row>
-
-    <!-- 添加用户的弹窗 -->
+    <PublicDialog :dialogVisible="dialogVisible" @closeDialog="closeDialog"/>
   </div>
 </template>
 
 <script>
+import PublicDialog from "./PublicDialog";
 export default {
   created() {
-    this.getUserInfo();
+    this.getUserInfo("");
+  },
+  components: {
+    PublicDialog
   },
   data() {
     return {
-      query:'',
+      dialogVisible:false,
+      query: "",
       users: [],
+      
       pagenations: {
         // 当前位于
         page_index: 1,
@@ -138,9 +151,16 @@ export default {
     };
   },
   methods: {
-    async getUserInfo() {
-      const result = await this.$axios.get("api/users/getUsers",{params:{name:this.query}});
-      // console.log(result.data.result)
+    closeDialog(){
+      this.dialogVisible = false
+      this.getUserInfo('')
+    },
+    async getUserInfo(name) {
+      // console.log(this.query)
+      const result = await this.$axios.get("api/users/getUsers", {
+        params: { name }
+      });
+
       if (result.data.code == 1) {
         this.users = result.data.result;
       }
@@ -163,15 +183,18 @@ export default {
     // 切换分页时
     handleSizeChange(page_size) {
       this.pagenations.page_size = page_size;
-      this.getUserInfo();
+      this.getUserInfo(this.query);
     },
     // 改变页码时
     handleCurrentChange(page) {
       this.pagenations.page_index = page;
-      this.getUserInfo();
+      this.getUserInfo(this.query);
     },
-    searchUser(){
-      this.getUserInfo()
+    searchUser() {
+      this.getUserInfo(this.query);
+    },
+    addUser() {
+      this.dialogVisible = true;
     }
   }
 };
