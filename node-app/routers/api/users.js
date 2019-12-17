@@ -186,8 +186,15 @@ router.get('/current',passport.authenticate("jwt",{session:false}), async (req,r
 
 // 获取所有的用户除了admin管理员账户之外
 router.get('/getUsers',passport.authenticate("jwt",{session:false}), async (req,res)=>{
-  // console.log(req.user)
-  const result = await User.find({"name":{$ne:"admin"}},{__v:0,password:0})
+  console.log("params",req.query)
+  const {name} = req.query
+  let result = {}
+  if(name == ''){
+    result = await User.find({"name":{$ne:"admin"}},{__v:0,password:0})
+  }else{
+    result = await User.find({$and:[{"email":{$ne:"leocaoxiaozhu@163.com"}},{"name":{$regex:name}}]},{__v:0,password:0})
+  }
+  
   // console.log(result)
   if(result){
     res.json({

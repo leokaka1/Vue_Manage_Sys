@@ -2,8 +2,8 @@
   <div>
     <el-row :gutter="40">
       <el-col :span="6">
-        <el-input placeholder="请输入内容" class="input-with-select">
-          <el-button slot="append" icon="el-icon-search"></el-button>
+        <el-input placeholder="请输入内容" class="input-with-select" v-model="query">
+          <el-button slot="append" icon="el-icon-search" @click="searchUser"></el-button>
         </el-input>
       </el-col>
       <!-- 按钮区域 -->
@@ -122,6 +122,7 @@ export default {
   },
   data() {
     return {
+      query:'',
       users: [],
       pagenations: {
         // 当前位于
@@ -138,7 +139,7 @@ export default {
   },
   methods: {
     async getUserInfo() {
-      const result = await this.$axios.get("api/users/getUsers");
+      const result = await this.$axios.get("api/users/getUsers",{params:{name:this.query}});
       // console.log(result.data.result)
       if (result.data.code == 1) {
         this.users = result.data.result;
@@ -168,6 +169,9 @@ export default {
     handleCurrentChange(page) {
       this.pagenations.page_index = page;
       this.getUserInfo();
+    },
+    searchUser(){
+      this.getUserInfo()
     }
   }
 };
