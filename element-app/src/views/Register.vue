@@ -5,7 +5,12 @@
                 <span class="title">Leon的后台接口管理系统</span>
                 <el-form :model="registerUser" :rules="rules" :label-position="labelPosition" ref="registerForm" label-width="80px" class="registerForm">
                     <!-- 用户名 -->
-                    <el-form-item label="用户名" prop="name">
+                    <el-form-item label="用户名" prop="username">
+                        <el-input clearable v-model="registerUser.username" placeholder="请输入用户名"></el-input>
+                    </el-form-item>
+
+                    <!-- 真实姓名 -->
+                    <el-form-item label="真实姓名" prop="name">
                         <el-input clearable v-model="registerUser.name" placeholder="请输入用户名"></el-input>
                     </el-form-item>
 
@@ -56,6 +61,7 @@
             return {
                 labelPosition:'left',
                 registerUser:{
+                    username:"",
                     name:"",
                     email:"",
                     password:"",
@@ -64,10 +70,23 @@
                 },
                 
                 rules:{
-                    name:[
+                    username:[
                         {
                             required:true,
                             message:"用户名不能为空",
+                            trigger:"blur",
+                        },
+                        {
+                            min:2,
+                            max:30,
+                            message:"长度需要在2-30个字符之间",
+                            trigger:"blur"
+                        }
+                    ],
+                    name:[
+                        {
+                            required:true,
+                            message:"真实姓名不能为空",
                             trigger:"blur",
                         },
                         {

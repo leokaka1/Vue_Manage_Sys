@@ -1,7 +1,13 @@
 const mongoose = require('mongoose')
 const UserSchema = new mongoose.Schema({
+    username:{
+        type:String,
+        required:true
+    },
     name:{
         type:String,
+        // 导入正则表达式
+        match:new RegExp('^[\u4e00-\u9fa5]{0,}$'),
         required:true
     },
     email:{

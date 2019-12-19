@@ -39,14 +39,14 @@ router.post("/register", async (req, res) => {
   } else {
     // 获取头像
     const avatar = gravatar.url(req.body.email, { s: "200", r: "pg", d: "mm" });
-
     // 获取body中的值
     const newUsers = new User({
       name: req.body.name,
       email: req.body.email,
       avatar,
       password: req.body.password,
-      identity:req.body.identity
+      identity:req.body.identity,
+      username:req.body.username
     });
 
     // 盐值
@@ -57,12 +57,17 @@ router.post("/register", async (req, res) => {
         if (err) throw err;
         newUsers.password = hash;
         // 存储到数据库
-        const result = await newUsers.save();
-        if (result) {
+        let [error,result] = await newUsers.save();
+        // 验证
+        console.log(result)
+        if (!error) {
           res.json({
             code: 1,
             msg:"用户注册成功"
           });
+        }else{
+          // console.log("err",err)
+          
         }
       });
     });

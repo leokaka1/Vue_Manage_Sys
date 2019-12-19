@@ -39,7 +39,7 @@
         width="50"
       ></el-table-column>
       <el-table-column
-        label="姓名"
+        label="用户名"
         prop="name"
         align="center"
       ></el-table-column>
