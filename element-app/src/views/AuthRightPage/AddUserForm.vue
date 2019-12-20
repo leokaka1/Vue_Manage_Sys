@@ -1,20 +1,20 @@
 <template>
   <div>
-    <el-form :model="addUserForm" :rules="addUserRules" ref="addUserForm">
+    <el-form :model="userInfo" :rules="addUserRules" ref="addUserForm">
       <el-form-item label="用户名:" label-width="80px" prop="username">
-        <el-input v-model="addUserForm.username" auto-complete="off"></el-input>
+        <el-input v-model="userInfo.username" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="真实姓名:" label-width="85px" prop="name">
-        <el-input v-model="addUserForm.name" auto-complete="off"></el-input>
+        <el-input v-model="userInfo.name" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="邮箱:" label-width="80px" prop="email">
-        <el-input v-model="addUserForm.email" auto-complete="off"></el-input>
+        <el-input v-model="userInfo.email" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="密码:" label-width="80px" prop="password">
-        <el-input v-model="addUserForm.password" auto-complete="off"></el-input>
+        <el-input v-model="userInfo.password" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="角色:" label-width="80px" prop="identity">
-        <el-select v-model="addUserForm.identity" placeholder="请选择">
+        <el-select v-model="userInfo.identity" placeholder="请选择">
           <el-option
             v-for="item in identityOptions"
             :key="item.value"
@@ -35,9 +35,6 @@
 
 <script>
 export default {
-  mounted() {
-    this.$emit("refs",this.$refs["addUserForm"])
-  },
   methods: {
     closeDialog(){
       this.$emit("closeDialog")
@@ -118,6 +115,9 @@ export default {
         }
       ]
     };
+  },
+  props:{
+    userInfo:Object
   }
 };
 </script>

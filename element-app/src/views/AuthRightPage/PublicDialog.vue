@@ -1,9 +1,9 @@
 <template>
   <div>
     <!-- 添加用户的弹窗 -->
-    <el-dialog title="添加用户" :visible.sync="dialogVisible">
+    <el-dialog :title="handleUser.title" :visible.sync="dialogVisible">
       <!-- 插入的表单 -->
-      <AddUserForm @closeDialog="closeDialog"/>
+      <AddUserForm @closeDialog="closeDialog" :userInfo = "this.$store.getters.targetUser"/>
 
     </el-dialog>
   </div>
@@ -23,6 +23,9 @@ export default {
   },
   props: {
     showType:String,
+    handleUser:{
+      title:""
+    }
   },
   data() {
     return {

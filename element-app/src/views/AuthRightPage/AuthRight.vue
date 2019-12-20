@@ -69,9 +69,8 @@
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="warning" size="mini" icon="el-icon-edit" @click="editUser(scope.row)"></el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete"></el-button>
-          <el-button type="primary" size="mini" icon="el-icon-setting"></el-button>
+          <el-button type="warning" size="medium" icon="el-icon-edit" @click="editUser(scope.row)"></el-button>
+          <el-button type="danger" size="medium" icon="el-icon-delete"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -95,7 +94,7 @@
     </el-row>
 
     <!-- 对话框 -->
-    <PublicDialog ref="publicDialog" @closeDialog="closeDialog"/>
+    <PublicDialog ref="publicDialog" @closeDialog="closeDialog" :handleUser="handleUser"/>
   </div>
 </template>
 
@@ -114,7 +113,10 @@ export default {
       query: "",
       users: [],
       // 分页内容
-      pagenations: paginationsSetting
+      pagenations: paginationsSetting,
+      handleUser:{
+        title:""
+      }
     };
   },
   methods: {
@@ -164,11 +166,15 @@ export default {
     },
     // 添加用户信息
     addUser() {
+      this.handleUser.title = "添加新用户"
+      this.$store.dispatch("editUser",{})
       this.$refs.publicDialog.$emit('openDialog')
     },
     // 修改用户信息
     editUser(userInfo){
       // console.log(userInfo)
+      this.handleUser.title = "修改用户信息"
+      this.$store.dispatch("editUser",userInfo)
       this.$refs.publicDialog.$emit('openDialog')
     }
   }
