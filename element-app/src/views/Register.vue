@@ -68,7 +68,6 @@
                     password2:"",
                     identity:"employee"
                 },
-                
                 rules:{
                     username:[
                         {
@@ -81,7 +80,10 @@
                             max:30,
                             message:"长度需要在2-30个字符之间",
                             trigger:"blur"
-                        }
+                        },
+                        // {
+                        //     validator:usernameCheck
+                        // }
                     ],
                     name:[
                         {
@@ -102,7 +104,10 @@
                             type:'email',
                             message:"邮箱格式不正确",
                             trigger:"blur"
-                        }
+                        },
+                        // {
+                        //     validator:emailCheck
+                        // }
                     ],
                     password:[
                         {
@@ -157,7 +162,7 @@
                             identity
                         }
                         const result = await this.$axios.post('api/users/register',params)
-                        
+                        console.log(result)
                         const {code,msg} = result.data
                         if(result){
                             if(code === 0){

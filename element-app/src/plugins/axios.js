@@ -35,11 +35,12 @@ const _axios = axios.create(config);
 
 _axios.interceptors.request.use(
   function(config) {
+    
     // 开始动画
     startLoading()
-
     // 判断token
     if(localStorage.token){
+      
       // 设置统一的header
       config.headers.Authorization = localStorage.token
     }

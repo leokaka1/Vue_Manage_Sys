@@ -30,11 +30,11 @@ const User = require("../../models/Users");
 router.post("/register", async (req, res) => {
   console.log("请求注册接口", req.body);
   // 查询数据库中是否拥有邮箱
-  const result = await User.findOne({ email: req.body.email });
+  const result = await User.findOne({$or:[{email: req.body.email },{username:req.body.username}]});
   if (result) {
     res.json({
       code: 0,
-      msg: "邮箱已被注册！"
+      msg: "邮箱或用户名已被注册！"
     });
   } else {
     // 获取头像
@@ -84,8 +84,6 @@ router.post("/register", async (req, res) => {
     //     }
     //   });
     // });
-
-
   }
 });
 

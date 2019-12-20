@@ -40,6 +40,11 @@
       ></el-table-column>
       <el-table-column
         label="用户名"
+        prop="username"
+        align="center"
+      ></el-table-column>
+      <el-table-column
+        label="真实姓名"
         prop="name"
         align="center"
       ></el-table-column>
