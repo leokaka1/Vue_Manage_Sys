@@ -3,7 +3,7 @@
     <el-row :gutter="40">
       <el-col :span="6">
         <el-input
-          placeholder="请输入内容"
+          placeholder="请输入对应的用户名"
           class="input-with-select"
           v-model="query"
         >

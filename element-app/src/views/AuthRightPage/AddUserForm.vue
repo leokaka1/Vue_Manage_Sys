@@ -1,7 +1,10 @@
 <template>
   <div>
     <el-form :model="addUserForm" :rules="addUserRules" ref="addUserForm">
-      <el-form-item label="用户名:" label-width="80px" prop="name">
+      <el-form-item label="用户名:" label-width="80px" prop="username">
+        <el-input v-model="addUserForm.username" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="真实姓名:" label-width="85px" prop="name">
         <el-input v-model="addUserForm.name" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="邮箱:" label-width="80px" prop="email">
@@ -21,6 +24,11 @@
           </el-option>
         </el-select>
       </el-form-item>
+
+      <div class="buttonSpace">
+        <el-button @click="closeDialog">取 消</el-button>
+        <el-button type="primary" @click="confirmAction">确 定</el-button>
+      </div>    
     </el-form>
   </div>
 </template>
@@ -29,15 +37,44 @@
 export default {
   mounted() {
     this.$emit("refs",this.$refs["addUserForm"])
-    this.$emit("receiveData",this.addUserForm)
+  },
+  methods: {
+    closeDialog(){
+      this.$emit("closeDialog")
+    },
+    confirmAction(){
+      // console.log(this.data)
+      this.$refs["addUserForm"].validate(async(validate)=>{
+          if(validate){
+              console.log("过了")
+              // 调用注册用户接口
+              const result = await this.$axios.post('/api/users/register',this.addUserForm)
+              // console.log(result)
+              if(result.data.code==1){
+                  this.$message({
+                      message:"用户添加成功！",
+                      type:"success"
+                  })
+              }   
+              this.$emit('closeDialog')
+              this.$refs["addUserForm"].resetFields()
+          }else{
+              console.log("没过")
+          }
+      })
+    },
   },
   data() {
     return {
       accessValue: 0, 
       addUserRules: {
-        name: [
+        username:[
           { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 3, max: 30, message: "请输入3-30位的用户名", trigger: "blur" }
+          { min: 2, max: 30, message: "请输入3-30位的用户名", trigger: "blur" }
+        ],
+        name: [
+          { required: true, message: "请输入真实姓名", trigger: "blur" },
+          { min: 2, max: 4, message: "请输入正确的姓名", trigger: "blur" }
         ],
         email: [
           {
@@ -56,6 +93,7 @@ export default {
         name: "",
         email: "",
         password: "",
+        username:"",
         identity: "employee",
       },
       identityOptions: [
@@ -83,4 +121,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.buttonSpace{
+  text-align: right
+}
+</style>

@@ -111,7 +111,7 @@ router.post("/login", async (req, res) => {
   const password = req.body.password;
 
   const searchResult = await User.findOne({ username });
-  console.log(searchResult)
+  // console.log(searchResult)
   if (!searchResult) {
     res.json({
       code: 0,
@@ -204,13 +204,13 @@ router.get('/current',passport.authenticate("jwt",{session:false}), async (req,r
 
 // 获取所有的用户除了admin管理员账户之外
 router.get('/getUsers',passport.authenticate("jwt",{session:false}), async (req,res)=>{
-  // console.log("params",req.query)
+  console.log("params",req.query)
   const {name} = req.query
   let result = {}
   if(name == ''){
     result = await User.find({"username":{$ne:"admin"}},{__v:0,password:0})
   }else{
-    result = await User.find({$and:[{"email":{$ne:"leocaoxiaozhu@163.com"}},{"name":{$regex:name}}]},{__v:0,password:0})
+    result = await User.find({$and:[{"email":{$ne:"leocaoxiaozhu@163.com"}},{"username":{$regex:name}}]},{__v:0,password:0})
   }
   
   // console.log(result)
