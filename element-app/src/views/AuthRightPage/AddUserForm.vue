@@ -49,7 +49,7 @@ export default {
           if(validate){
               console.log("过了")
               // 调用注册用户接口
-              const result = await this.$axios.post('/api/users/register',this.addUserForm)
+              const result = await this.$axios.post('/api/users/register',{...this.addUserForm,password:this.$md5(this.addUserForm.password)})
               // console.log(result)
               if(result.data.code==1){
                   this.$message({
