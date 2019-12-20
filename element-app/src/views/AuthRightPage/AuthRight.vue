@@ -101,6 +101,7 @@
 
 <script>
 import PublicDialog from "./PublicDialog";
+import {paginationsSetting} from '../../tools/const_set'
 export default {
   created() {
     this.getUserInfo("");
@@ -113,17 +114,7 @@ export default {
       query: "",
       users: [],
       // 分页内容
-      pagenations: {
-        // 当前位于
-        page_index: 1,
-        // 总数
-        total: 0,
-        //一页显示多少
-        page_size: 2,
-        //  每页显示多少
-        page_sizes: [2, 4, 6, 8],
-        layout: "total, sizes, prev, pager, next, jumper"
-      }
+      pagenations: paginationsSetting
     };
   },
   methods: {
