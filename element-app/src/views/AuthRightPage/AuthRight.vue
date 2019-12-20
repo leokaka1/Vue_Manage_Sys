@@ -94,7 +94,7 @@
     </el-row>
 
     <!-- 对话框 -->
-    <UserDialog @update="closeDialog" ref="publicDialog" :userInfo="userInfo" :handleUser="handleUser"/>
+    <UserDialog @update="closeDialog" :userInfo="userInfo" :handleUser="handleUser"/>
 
     <!-- 删除的对话框 -->
     <el-dialog
@@ -112,7 +112,6 @@
 </template>
 
 <script>
-import PublicDialog from "./PublicDialog";
 import {paginationsSetting} from '../../tools/const_set'
 import UserDialog from '../../components/User_Dialog'
 export default {
@@ -120,7 +119,6 @@ export default {
     this.getUserInfo("");
   },
   components: {
-    PublicDialog,
     UserDialog
   },
   data() {
