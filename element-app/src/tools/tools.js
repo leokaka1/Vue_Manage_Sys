@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import jwt_decode from 'jwt-decode'
+import md5 from 'js-md5'
 
 // 解析token
 function getToken(){
@@ -20,5 +21,11 @@ function isEmpty(value){
     )
 }
 
+// md5盐值加密
+function md5_encryption(password){
+    return md5(password)
+}
+
+Vue.prototype.$md5 = md5_encryption
 Vue.prototype.$isEmpty = isEmpty
 Vue.prototype.$getToken = getToken

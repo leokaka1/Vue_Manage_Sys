@@ -9,6 +9,7 @@
   "dependencies": {
     "core-js": "^3.4.3",
     "element-ui": "^2.4.5",
+    "js-md5": "^0.7.3",
     "jwt-decode": "^2.2.0",
     "sass": "^1.23.7",
     "sass-loader": "^8.0.0",

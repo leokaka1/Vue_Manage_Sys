@@ -49,28 +49,43 @@ router.post("/register", async (req, res) => {
       username:req.body.username
     });
 
-    // 盐值
-    const saltRounds = 10;
-    // 加密
-    bcrypt.genSalt(saltRounds, function(err, salt) {
-      bcrypt.hash(newUsers.password, salt, async (err, hash) => {
-        if (err) throw err;
-        newUsers.password = hash;
-        // 存储到数据库
-        let [error,result] = await newUsers.save();
-        // 验证
-        console.log(result)
-        if (!error) {
-          res.json({
-            code: 1,
-            msg:"用户注册成功"
-          });
-        }else{
-          // console.log("err",err)
-          
-        }
+    // 存储用户到数据库
+    const result = await newUsers.save()
+    if(result){
+      res.json({
+        code: 1,
+        msg:"用户注册成功"
       });
-    });
+    }else{
+      res.json({
+        code: 0,
+        msg:"用户注册失败"
+      });
+    }
+
+    // 盐值
+    // const saltRounds = 10;
+    // 加密
+    // bcrypt.genSalt(saltRounds, function(err, salt) {
+    //   bcrypt.hash(newUsers.password, salt, async (err, hash) => {
+    //     if (err) throw err;
+    //     newUsers.password = hash;
+    //     // 存储到数据库
+    //     let [error,result] = await newUsers.save();
+    //     // 验证
+    //     // console.log(result)
+    //     if (!error) {
+    //       res.json({
+    //         code: 1,
+    //         msg:"用户注册成功"
+    //       });
+    //     }else{
+    //       // console.log("err",err)
+    //     }
+    //   });
+    // });
+
+
   }
 });
 

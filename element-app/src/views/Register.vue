@@ -144,9 +144,20 @@
             submitForm(formName){
             this.$refs[formName].validate(async (valid) => {
                     if (valid) {   
+                        // 密码
+                        const md5Psd = this.$md5(this.registerUser.password)
+                        // console.log(md5Psd)
                         // 请求axios
-                        const result = await this.$axios.post('api/users/register',this.registerUser)
-                        // console.log(result)
+                        const {username,name,email,password,identity}  = this.registerUser
+                        const params = {
+                            username,
+                            name,
+                            email,
+                            password:this.$md5(password),
+                            identity
+                        }
+                        const result = await this.$axios.post('api/users/register',params)
+                        
                         const {code,msg} = result.data
                         if(result){
                             if(code === 0){
