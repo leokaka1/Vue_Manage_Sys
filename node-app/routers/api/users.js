@@ -247,5 +247,42 @@ router.post('/changeUserState/:id',passport.authenticate("jwt",{session:false}),
   }
 })
 
+// 修改用户
+router.post('/editUser',async(req,res)=>{
+  const userInfo = req.body
+  // console.log(userInfo)
+  const result = await User.updateOne({_id:userInfo._id},{$set:userInfo})
+  if(result){
+    res.json({
+      code:1,
+      msg:"用户修改成功！"
+    })
+  }else{
+    res.json({
+      code:0,
+      msg:"用户修改失败！"
+    })
+  }
+})
+
+
+// 删除用户
+router.post('/deleteUser',async(req,res)=>{
+  const userInfo = req.body
+  // console.log(userInfo)
+  const result = await User.deleteOne({_id:userInfo._id})
+  if(result){
+    res.json({
+      code:1,
+      msg:"用户删除成功！"
+    })
+  }else{
+    res.json({
+      code:0,
+      msg:"用户删除失败！"
+    })
+  }
+})
+
 
 module.exports = router;

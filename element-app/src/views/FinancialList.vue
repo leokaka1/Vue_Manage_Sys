@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import Dialog from "../components/Dialog";
+import Dialog from "../components/Financial_Dialog";
 import {paginationsSetting} from '../tools/const_set'
 export default {
   data() {

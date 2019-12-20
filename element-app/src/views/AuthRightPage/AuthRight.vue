@@ -69,8 +69,8 @@
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="warning" size="medium" icon="el-icon-edit" @click="editUser(scope.row)"></el-button>
-          <el-button type="danger" size="medium" icon="el-icon-delete"></el-button>
+          <el-button class="editbutton" type="warning" icon="el-icon-edit" @click="editUser(scope.row)"></el-button>
+          <el-button type="danger" icon="el-icon-delete" @click="openDialog(scope.row)"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -94,34 +94,54 @@
     </el-row>
 
     <!-- 对话框 -->
-    <PublicDialog ref="publicDialog" @closeDialog="closeDialog" :handleUser="handleUser"/>
+    <UserDialog @update="closeDialog" ref="publicDialog" :userInfo="userInfo" :handleUser="handleUser"/>
+
+    <!-- 删除的对话框 -->
+    <el-dialog
+    title="提示"
+    :visible.sync="dialogVisible"
+    width="30%"
+    >
+      <span>确认删除么？</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="Delete">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import PublicDialog from "./PublicDialog";
 import {paginationsSetting} from '../../tools/const_set'
+import UserDialog from '../../components/User_Dialog'
 export default {
   created() {
     this.getUserInfo("");
   },
   components: {
-    PublicDialog
+    PublicDialog,
+    UserDialog
   },
   data() {
     return {
+      username:"",
+      dialogVisible:false,
       query: "",
       users: [],
       // 分页内容
       pagenations: paginationsSetting,
       handleUser:{
-        title:""
-      }
+        title:"",
+        type:"new",
+        show:false
+      },
+      userInfo:{}
     };
   },
   methods: {
     // 关闭对话框
-    closeDialog(type){
+    closeDialog(){
       this.getUserInfo('')
     },
     // 获取用户信息
@@ -137,12 +157,12 @@ export default {
     },
     // 改变用户的状态，是否启用
     async changeUserState(row) {
-      console.log(row);
+      // console.log(row);
       const result = await this.$axios.post(
         `api/users/changeUserState/${row._id}`,
         { access: row.access }
       );
-      console.log(result);
+      // console.log(result);
       if (result.data.code == 1) {
         this.$message({
           message: "用户状态已改变!",
@@ -166,16 +186,47 @@ export default {
     },
     // 添加用户信息
     addUser() {
-      this.handleUser.title = "添加新用户"
-      this.$store.dispatch("editUser",{})
-      this.$refs.publicDialog.$emit('openDialog')
+      this.handleUser= {
+        title:"添加新用户",
+        option:"new",
+        show:true
+      }
+      // 重置了用户信息
+      this.userInfo = {
+        username:"",
+        name:"",
+        email:"",
+        password:"",
+        identity:"employee"
+      }
     },
     // 修改用户信息
     editUser(userInfo){
       // console.log(userInfo)
-      this.handleUser.title = "修改用户信息"
-      this.$store.dispatch("editUser",userInfo)
-      this.$refs.publicDialog.$emit('openDialog')
+      this.handleUser= {
+        title:"修改用户信息",
+        type:"edit",
+        show:true
+      }
+      this.userInfo = userInfo
+    },
+    // 打开删除用户
+    openDialog(userInfo){
+      this.userInfo = userInfo
+      this.dialogVisible = true
+    },
+    // 删除用户
+    async Delete(){
+      const result = await this.$axios.post('/api/users/deleteUser',this.userInfo)
+      // console.log(result)
+      if(result.data.code==1){
+        this.dialogVisible = false
+        this.getUserInfo('')
+        this.$message({
+          message:result.data.msg,
+          type:"success"
+        })
+      }
     }
   }
 };

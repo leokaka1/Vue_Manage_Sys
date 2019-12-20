@@ -32,7 +32,9 @@ import {
     Breadcrumb,
     BreadcrumbItem,
     Switch,
-    Tooltip
+    Tooltip,
+    Popconfirm,
+    Popover
 } from 'element-ui'
 
 Message.install = function (Vue, options) {
@@ -40,6 +42,8 @@ Message.install = function (Vue, options) {
 }
 
 Vue.component(CollapseTransition.name, CollapseTransition)
+Vue.use(Popconfirm)
+Vue.use(Popover)
 Vue.use(Tooltip)
 Vue.use(Breadcrumb)
 Vue.use(Switch)

@@ -10,7 +10,7 @@
       <el-form-item label="邮箱:" label-width="80px" prop="email">
         <el-input v-model="userInfo.email" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="密码:" label-width="80px" prop="password">
+      <el-form-item v-if="!userInfo.username" label="密码:" label-width="80px" prop="password">
         <el-input v-model="userInfo.password" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="角色:" label-width="80px" prop="identity">
@@ -46,7 +46,7 @@ export default {
           if(validate){
               console.log("过了")
               // 调用注册用户接口
-              const result = await this.$axios.post('/api/users/register',{...this.addUserForm,password:this.$md5(this.addUserForm.password)})
+              const result = await this.$axios.post('/api/users/register',{...this.userInfo,password:this.$md5(this.addUserForm.password)})
               // console.log(result)
               if(result.data.code==1){
                   this.$message({
@@ -86,13 +86,6 @@ export default {
           { required: true, message: "请输入密码", trigger: "blur" },
           { min: 6, max: 10, message: "请输入6-10位的密码", trigger: "blur" }
         ]
-      },
-      addUserForm: {
-        name: "",
-        email: "",
-        password: "",
-        username:"",
-        identity: "employee",
       },
       identityOptions: [
         {
