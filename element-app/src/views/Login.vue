@@ -11,11 +11,11 @@
           label-width="80px"
           class="loginForm"
         >
-          <!-- 邮箱 -->
-          <el-form-item label="用户名" prop="name">
+          <!-- 用户名 -->
+          <el-form-item label="用户名" prop="username">
             <el-input
               clearable
-              v-model="loginUser.name"
+              v-model="loginUser.username"
               placeholder="请输入用户名"
             ></el-input>
           </el-form-item>
@@ -56,11 +56,11 @@ export default {
     return {
       labelPosition: "left",
       loginUser: {
-        name:"",
+        username:"",
         password: ""
       },
       rules: {
-        email: [
+        username: [
           {
             required: true,
             message: "请输入正确的用户名",
@@ -90,10 +90,11 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(async valid => {
         if (valid) {
+          const {username,password} = this.loginUser
           //   请求登录
           const result = await this.$axios.post(
             "/api/users/login",
-            this.loginUser
+            {...this.loginUser,password:this.$md5(password)}
           );
           console.log(result);
           const { code, msg, token, data } = result.data;

@@ -109,10 +109,10 @@ router.post("/register", async (req, res) => {
  * @apiVersion 1.0.0
  */
 router.post("/login", async (req, res) => {
-  const name = req.body.name;
+  const username = req.body.username;
   const password = req.body.password;
 
-  const searchResult = await User.findOne({ name });
+  const searchResult = await User.findOne({ username });
   console.log(searchResult)
   if (!searchResult) {
     res.json({
@@ -126,10 +126,11 @@ router.post("/login", async (req, res) => {
     });
   }else {
     // 密码匹配
-    bcrypt.compare(password, searchResult.password, (err, result) => {
-      // res == true
+    // bcrypt.compare(password, searchResult.password, (err, result) => {
+      
+    // });
       // 匹配成功
-      if (result) {
+      if (password == searchResult.password) {
         // 使用 json web token
         // 把用户信息传入
         const {_id,email,name,avatar,identity,access} = searchResult
@@ -157,7 +158,6 @@ router.post("/login", async (req, res) => {
           msg: "登录密码错误！"
         });
       }
-    });
   }
 });
 
