@@ -210,7 +210,7 @@ router.get('/getUsers',passport.authenticate("jwt",{session:false}), async (req,
   const {name} = req.query
   let result = {}
   if(name == ''){
-    result = await User.find({"name":{$ne:"admin"}},{__v:0,password:0})
+    result = await User.find({"username":{$ne:"admin"}},{__v:0,password:0})
   }else{
     result = await User.find({$and:[{"email":{$ne:"leocaoxiaozhu@163.com"}},{"name":{$regex:name}}]},{__v:0,password:0})
   }
