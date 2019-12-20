@@ -68,41 +68,11 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="修改用户信息"
-          placement="top"
-          :enterable="false"
-        >
-          <el-button type="warning" size="mini" icon="el-icon-edit"></el-button>
-        </el-tooltip>
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="删除用户"
-          placement="top"
-          :enterable="false"
-        >
-          <el-button
-            type="danger"
-            size="mini"
-            icon="el-icon-delete"
-          ></el-button>
-        </el-tooltip>
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="修改权限"
-          placement="top"
-          :enterable="false"
-        >
-          <el-button
-            type="primary"
-            size="mini"
-            icon="el-icon-setting"
-          ></el-button>
-        </el-tooltip>
+        <template slot-scope="scope">
+          <el-button type="warning" size="mini" icon="el-icon-edit" @click="editUser(scope.row)"></el-button>
+          <el-button type="danger" size="mini" icon="el-icon-delete"></el-button>
+          <el-button type="primary" size="mini" icon="el-icon-setting"></el-button>
+        </template>
       </el-table-column>
     </el-table>
 
@@ -123,7 +93,9 @@
         </div>
       </el-col>
     </el-row>
-    <PublicDialog :dialogVisible="dialogVisible" @closeDialog="closeDialog"/>
+
+    <!-- 对话框 -->
+    <PublicDialog ref="publicDialog" @closeDialog="closeDialog"/>
   </div>
 </template>
 
@@ -138,10 +110,9 @@ export default {
   },
   data() {
     return {
-      dialogVisible:false,
       query: "",
       users: [],
-      
+      // 分页内容
       pagenations: {
         // 当前位于
         page_index: 1,
@@ -156,10 +127,11 @@ export default {
     };
   },
   methods: {
-    closeDialog(){
-      this.dialogVisible = false
+    // 关闭对话框
+    closeDialog(type){
       this.getUserInfo('')
     },
+    // 获取用户信息
     async getUserInfo(name) {
       // console.log(this.query)
       const result = await this.$axios.get("api/users/getUsers", {
@@ -195,11 +167,18 @@ export default {
       this.pagenations.page_index = page;
       this.getUserInfo(this.query);
     },
+    // 搜索用户信息
     searchUser() {
       this.getUserInfo(this.query);
     },
+    // 添加用户信息
     addUser() {
-      this.dialogVisible = true;
+      this.$refs.publicDialog.$emit('openDialog')
+    },
+    // 修改用户信息
+    editUser(userInfo){
+      // console.log(userInfo)
+      this.$refs.publicDialog.$emit('openDialog')
     }
   }
 };

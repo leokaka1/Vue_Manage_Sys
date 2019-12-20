@@ -12,16 +12,28 @@
 <script>
 import AddUserForm from "./AddUserForm";
 export default {
+  mounted() {
+    this.$on('openDialog',()=>{
+      console.log("对话框打开")
+      this.dialogVisible = true
+    })
+  },
   components: {
     AddUserForm
   },
   props: {
     showType:String,
-    dialogVisible: Boolean
+  },
+  data() {
+    return {
+      dialogVisible:false
+    }
   },
   methods: {
       closeDialog(){
-        this.$emit('closeDialog')
+        // console.log("关闭对话框")
+        this.$emit("closeDialog",false)
+        this.dialogVisible = false
       },
   },
 };

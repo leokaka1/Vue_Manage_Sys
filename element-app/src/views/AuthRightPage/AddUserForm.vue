@@ -41,6 +41,7 @@ export default {
   methods: {
     closeDialog(){
       this.$emit("closeDialog")
+      this.$refs["addUserForm"].resetFields()
     },
     confirmAction(){
       // console.log(this.data)
